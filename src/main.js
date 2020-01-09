@@ -6,6 +6,10 @@ import './plugins/element.js'
 
 Vue.config.productionTip = false
 
+// $httpプロパティを追加
+Vue.prototype.$http = (url, opts) => fetch(url, opts)
+
+// アプリを起動
 new Vue({
   router,
   store,

@@ -1,23 +1,36 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import BookSearch from '../components/BookSearch.vue'
+import BookForm from '../components/BookForm.vue'
+import Home from '../components/Home.vue'
+
 
 Vue.use(VueRouter)
 
 const routes = [
+  // トップページ（登録済みレビューの一覧）
   {
     path: '/',
     name: 'home',
     component: Home
   },
+  // Googleブックスの検索フォーム
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/search',
+    name: 'search',
+    component: BookSearch
+  },
+  // 書評レビューのためのフォーム
+  {
+    path: '/form',
+    name: 'form',
+    component: BookForm
+  },
+  // 最終的な受け皿
+  {
+    path: '*',
+    redirect: '/'
+  }  
 ]
 
 const router = new VueRouter({
