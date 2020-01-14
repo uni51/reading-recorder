@@ -25,6 +25,7 @@ export default {
     book: { type: Object }
   },
   methods: {
+    // UPDATE_CURRENTアクションを同名のメソッドに紐付け
     ...mapActions([UPDATE_CURRENT]),
     onclick() {
       if (this.linkable) {
