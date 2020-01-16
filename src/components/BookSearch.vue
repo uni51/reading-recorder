@@ -1,5 +1,6 @@
 <template>
   <div id="search">
+    <!-- 検索フォームを定義 -->
     <el-form :inline="true">
       <el-form-item label="キーワード">
         <el-input type="text" size="large" v-model="keyword"></el-input>
@@ -9,6 +10,7 @@
       </el-form-item>
     </el-form>
     <hr />
+    <!-- マッチした書籍情報をリスト表示 -->
     <BookInfo v-for="(b, i) of books"
       :linkable="true" :book="b" :index="i + 1" :key="b.isbn"></BookInfo>   
   </div>
@@ -19,22 +21,26 @@ import BookInfo from '@/components/BookInfo.vue'
 
 export default {
   name: 'book-search',
+  // ローカルコンポーネントを登録
   components: {
     BookInfo
   },
   data() {
     return {
-      keyword: 'vuejs',
-      books: []
+      keyword: '', // 検索キーワード
+      books: [] // 検索結果
     }
   },
   methods: {
+    // [検索]ボタンで書籍情報を検索
     onclick: function() {
       this.$http('https://www.googleapis.com/books/v1/volumes?q='
         + this.keyword)
+        // 応答データをjsonとして取得
         .then((response) => {
           return response.json()
         })
+        // JSON文字列の内容をbooksプロパティ（配列）に詰め替え
         .then((data) => {
           this.books = []
           for (let b of data.items) {
@@ -42,13 +48,13 @@ export default {
             let price = b.saleInfo.listPrice
             let img = b.volumeInfo.imageLinks
             this.books.push({
-              id: b.id,
-              title: b.volumeInfo.title,
-              author: authors ? authors.join(',') : '',
-              price: price ? price.amount : '-',
-              publisher: b.volumeInfo.publisher,
-              published: b.volumeInfo.publishedDate,
-              image: img ? img.smallThumbnail : '',
+              id: b.id, // id値
+              title: b.volumeInfo.title,  // 署名
+              author: authors ? authors.join(',') : '', // 著者
+              price: price ? price.amount : '-',  // 価格
+              publisher: b.volumeInfo.publisher,  // 出版社
+              published: b.volumeInfo.publishedDate,  // 刊行日
+              image: img ? img.smallThumbnail : '', // 表紙画像
             })
           }
         })
